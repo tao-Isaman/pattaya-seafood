@@ -1,0 +1,177 @@
+"use client"
+
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Search, Loader2 } from "lucide-react"
+import Image from "next/image"
+import { MenuHeader } from "@/components/menu-header"
+import { AddToCartButton } from "@/components/add-to-cart-button"
+import { getMenuItems } from "@/lib/supabase"
+import { useEffect, useState } from "react"
+import { MenuItem } from "@/lib/supabase"
+
+export default function MenuPage() {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
+
+  useEffect(() => {
+    async function loadMenuItems() {
+      try {
+        const items = await getMenuItems()
+        setMenuItems(items)
+      } catch (error) {
+        console.error("Error loading menu items:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadMenuItems()
+  }, [])
+
+  const filteredItems = menuItems.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
+      <MenuHeader />
+
+      <main className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">เมนูอาหาร</h1>
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+            <div className="relative w-full md:w-96">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Input 
+                placeholder="ค้นหาเมนูอาหาร..." 
+                className="pl-10 border-sky-200 focus:border-sky-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin text-sky-500" />
+            <span className="ml-2">กำลังโหลดข้อมูล...</span>
+          </div>
+        ) : (
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="mb-6 bg-sky-100 p-1">
+              <TabsTrigger value="all" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+                ทั้งหมด
+              </TabsTrigger>
+              <TabsTrigger value="seafood" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+                อาหารทะเล
+              </TabsTrigger>
+              <TabsTrigger value="appetizers" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+                อาหารเรียกน้ำย่อย
+              </TabsTrigger>
+              <TabsTrigger value="soups" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+                ต้ม/แกง
+              </TabsTrigger>
+              <TabsTrigger value="drinks" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+                เครื่องดื่ม
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="all" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredItems.map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="seafood" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredItems
+                  .filter((item) => item.category === "seafood")
+                  .map((item) => (
+                    <MenuItemCard key={item.id} item={item} />
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="appetizers" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredItems
+                  .filter((item) => item.category === "appetizers")
+                  .map((item) => (
+                    <MenuItemCard key={item.id} item={item} />
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="soups" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredItems
+                  .filter((item) => item.category === "soups")
+                  .map((item) => (
+                    <MenuItemCard key={item.id} item={item} />
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="drinks" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredItems
+                  .filter((item) => item.category === "drinks")
+                  .map((item) => (
+                    <MenuItemCard key={item.id} item={item} />
+                  ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        )}
+      </main>
+
+      <footer className="bg-sky-800 text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+function MenuItemCard({ item }: { item: MenuItem }) {
+  return (
+    <Card className="overflow-hidden">
+      <div className="h-48 relative">
+        <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+      </div>
+      <CardContent className="p-6">
+        <div className="flex justify-between items-start mb-2">
+          <div>
+            <h3 className="font-semibold text-lg">{item.name}</h3>
+            <p className="text-sm text-gray-500">{getCategoryName(item.category)}</p>
+          </div>
+          <p className="font-bold text-sky-600">{item.price} บาท</p>
+        </div>
+        <p className="text-sm text-gray-600 mb-4">{item.description}</p>
+        <AddToCartButton item={item} />
+      </CardContent>
+    </Card>
+  )
+}
+
+function getCategoryName(category: string): string {
+  switch (category) {
+    case "seafood":
+      return "อาหารทะเล"
+    case "appetizers":
+      return "อาหารเรียกน้ำย่อย"
+    case "soups":
+      return "ต้ม/แกง"
+    case "drinks":
+      return "เครื่องดื่ม"
+    default:
+      return category
+  }
+}

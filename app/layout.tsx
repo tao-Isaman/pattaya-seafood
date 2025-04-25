@@ -1,0 +1,42 @@
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+import { CartProvider } from "@/context/cart-context"
+import { AuthProvider } from "@/context/auth-context"
+import { Toaster } from "@/components/ui/toaster"
+
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata: Metadata = {
+  title: "พัทยา Sea Food - ร้านอาหารทะเลสดใหม่",
+  description: "ร้านอาหารทะเลสดใหม่ พัทยา Sea Food สั่งอาหารออนไลน์ได้ง่ายๆ",
+  generator: 'v0.dev'
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="th" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <Toaster />
+            </CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
