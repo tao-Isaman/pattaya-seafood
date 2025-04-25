@@ -59,3 +59,5 @@ WHERE id = 'UUID_ที่ได้จากขั้นตอนก่อนห
 คุณสามารถใช้ Supabase Admin API เพื่อสร้างผู้ใช้ได้ ดูตัวอย่างได้ในไฟล์ `scripts/create-mock-users.ts`
 
 หมายเหตุ: วิธีนี้ต้องใช้ Service Role Key ซึ่งมีสิทธิ์สูงสุด ควรใช้อย่างระมัดระวังและไม่ควรเปิดเผยใน client-side code
+
+# tring deploy
