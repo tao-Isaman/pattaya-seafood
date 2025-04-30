@@ -38,7 +38,7 @@ export function AddToCartButton({ item }: AddToCartButtonProps) {
   }
 
   return (
-    <Button className="w-full bg-sky-500 hover:bg-sky-600" onClick={handleAddToCart}>
+    <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleAddToCart}>
       <ShoppingCart className="h-4 w-4 mr-2" />
       เพิ่มลงตะกร้า
     </Button>

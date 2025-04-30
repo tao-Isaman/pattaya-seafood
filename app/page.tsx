@@ -5,8 +5,8 @@ import Image from "next/image"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
-      <header className="bg-sky-600 text-white shadow-md">
+    <div className="min-h-screen bg-gradient-to-b from-secondary to-background">
+      <header className="bg-primary text-primary-foreground shadow-md">
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Image
@@ -19,27 +19,27 @@ export default function Home() {
             <h1 className="text-2xl font-bold">พัทยา Sea Food</h1>
           </div>
           <nav className="hidden md:flex space-x-6">
-            <Link href="/" className="hover:text-sky-200 transition">
+            <Link href="/" className="hover:text-primary-foreground/80 transition">
               หน้าหลัก
             </Link>
-            <Link href="/menu" className="hover:text-sky-200 transition">
+            <Link href="/menu" className="hover:text-primary-foreground/80 transition">
               เมนูอาหาร
             </Link>
-            <Link href="/cart" className="hover:text-sky-200 transition">
+            <Link href="/cart" className="hover:text-primary-foreground/80 transition">
               ตะกร้าสินค้า
             </Link>
-            <Link href="/admin" className="hover:text-sky-200 transition">
+            <Link href="/admin" className="hover:text-primary-foreground/80 transition">
               สำหรับร้านอาหาร
             </Link>
           </nav>
           <div className="flex space-x-2">
             <Link href="/cart">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-sky-700">
+              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80">
                 <ShoppingCart className="h-5 w-5" />
               </Button>
             </Link>
             <Link href="/admin" className="hidden md:block">
-              <Button variant="outline" className="bg-transparent border-white text-white hover:bg-sky-700">
+              <Button variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary/80">
                 เข้าสู่ระบบร้านอาหาร
               </Button>
             </Link>
@@ -50,13 +50,13 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         <section className="py-20 px-4 text-center bg-[url('/placeholder.svg?height=600&width=1200')] bg-cover bg-center relative">
-          <div className="absolute inset-0 bg-sky-900/60"></div>
+          <div className="absolute inset-0 bg-primary/90"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">อาหารทะเลสดใหม่ จากพัทยา</h1>
-            <p className="text-xl text-white mb-8">สั่งอาหารทะเลสดใหม่จากร้านพัทยา Sea Food ได้ง่ายๆ เพียงไม่กี่คลิก</p>
+            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">อาหารทะเลสดใหม่ จากพัทยา</h1>
+            <p className="text-xl text-primary-foreground mb-8">สั่งอาหารทะเลสดใหม่จากร้านพัทยา Sea Food ได้ง่ายๆ เพียงไม่กี่คลิก</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/menu">
-                <Button size="lg" className="bg-sky-500 hover:bg-sky-600 text-white px-8">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
                   <Utensils className="mr-2 h-5 w-5" /> ดูเมนูอาหาร
                 </Button>
               </Link>
@@ -64,7 +64,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-transparent border-white text-white hover:bg-sky-700/30"
+                  className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary/80"
                 >
                   <ChefHat className="mr-2 h-5 w-5" /> สำหรับร้านอาหาร
                 </Button>
@@ -74,25 +74,25 @@ export default function Home() {
         </section>
 
         {/* Featured Menu Section */}
-        <section className="py-16 px-4 bg-white">
+        <section className="py-16 px-4 bg-background">
           <div className="container mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">เมนูแนะนำ</h2>
+            <h2 className="text-3xl font-bold text-center mb-12 text-foreground">เมนูแนะนำ</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+                  className="bg-card rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
                 >
                   <div className="h-48 relative">
                     <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-                    <p className="text-gray-600 mb-4">{item.description}</p>
+                    <h3 className="text-xl font-semibold mb-2 text-foreground">{item.name}</h3>
+                    <p className="text-muted-foreground mb-4">{item.description}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-sky-600 font-bold text-lg">{item.price} บาท</span>
+                      <span className="text-primary font-bold text-lg">{item.price} บาท</span>
                       <Link href={`/menu/${item.id}`}>
-                        <Button size="sm" className="bg-sky-500 hover:bg-sky-600">
+                        <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                           สั่งเลย
                         </Button>
                       </Link>
@@ -103,7 +103,7 @@ export default function Home() {
             </div>
             <div className="text-center mt-12">
               <Link href="/menu">
-                <Button variant="outline" className="border-sky-500 text-sky-500 hover:bg-sky-50">
+                <Button variant="outline" className="border-primary text-primary hover:bg-secondary">
                   ดูเมนูทั้งหมด
                 </Button>
               </Link>
@@ -112,44 +112,44 @@ export default function Home() {
         </section>
 
         {/* How It Works Section */}
-        <section className="py-16 px-4 bg-sky-50">
+        <section className="py-16 px-4 bg-secondary">
           <div className="container mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">วิธีการสั่งอาหาร</h2>
+            <h2 className="text-3xl font-bold text-center mb-12 text-foreground">วิธีการสั่งอาหาร</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-lg shadow text-center">
-                <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Utensils className="h-8 w-8 text-sky-600" />
+              <div className="bg-card p-8 rounded-lg shadow text-center">
+                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Utensils className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">1. เลือกเมนูอาหาร</h3>
-                <p className="text-gray-600">เลือกเมนูอาหารทะเลที่คุณชื่นชอบจากรายการอาหารของเรา</p>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">1. เลือกเมนูอาหาร</h3>
+                <p className="text-muted-foreground">เลือกเมนูอาหารทะเลที่คุณชื่นชอบจากรายการอาหารของเรา</p>
               </div>
-              <div className="bg-white p-8 rounded-lg shadow text-center">
-                <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ShoppingCart className="h-8 w-8 text-sky-600" />
+              <div className="bg-card p-8 rounded-lg shadow text-center">
+                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ShoppingCart className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">2. เพิ่มลงตะกร้า</h3>
-                <p className="text-gray-600">เพิ่มรายการอาหารที่คุณต้องการลงในตะกร้าสินค้า</p>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">2. เพิ่มลงตะกร้า</h3>
+                <p className="text-muted-foreground">เพิ่มรายการอาหารที่คุณต้องการลงในตะกร้าสินค้า</p>
               </div>
-              <div className="bg-white p-8 rounded-lg shadow text-center">
-                <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ChefHat className="h-8 w-8 text-sky-600" />
+              <div className="bg-card p-8 rounded-lg shadow text-center">
+                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ChefHat className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">3. ยืนยันการสั่งซื้อ</h3>
-                <p className="text-gray-600">ยืนยันการสั่งซื้อและรอรับอาหารทะเลสดใหม่จากทางร้าน</p>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">3. ยืนยันการสั่งซื้อ</h3>
+                <p className="text-muted-foreground">ยืนยันการสั่งซื้อและรอรับอาหารทะเลสดใหม่จากทางร้าน</p>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="bg-sky-800 text-white py-12">
+      <footer className="bg-primary text-primary-foreground py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h3 className="text-xl font-bold mb-4">พัทยา Sea Food</h3>
               <p className="mb-4">ร้านอาหารทะเลสดใหม่ คุณภาพดี ราคาเป็นมิตร</p>
               <div className="flex space-x-4">
-                <a href="#" className="text-white hover:text-sky-200">
+                <a href="#" className="text-primary-foreground hover:text-primary-foreground/80">
                   <span className="sr-only">Facebook</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path
@@ -159,7 +159,7 @@ export default function Home() {
                     />
                   </svg>
                 </a>
-                <a href="#" className="text-white hover:text-sky-200">
+                <a href="#" className="text-primary-foreground hover:text-primary-foreground/80">
                   <span className="sr-only">Instagram</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path
@@ -183,7 +183,7 @@ export default function Home() {
               <p className="mb-2">เสาร์ - อาทิตย์: 10:00 - 23:00</p>
             </div>
           </div>
-          <div className="border-t border-sky-700 mt-8 pt-8 text-center">
+          <div className="border-t border-primary/80 mt-8 pt-8 text-center">
             <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
           </div>
         </div>

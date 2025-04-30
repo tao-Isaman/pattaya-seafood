@@ -10,7 +10,7 @@
     --card-foreground: 210 40% 98%; /* white text on cards */
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 208 70% 52%; /* header/footer blue */
+    --primary: 24 94% 50%; /* vibrant orange */
     --primary-foreground: 210 40% 98%; /* white */
     --secondary: 208 100% 94%; /* light blue for tabs */
     --secondary-foreground: 208 70% 52%; /* blue text on light blue */
@@ -22,7 +22,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217 19% 85%; /* light border */
     --input: 217 19% 85%;
-    --ring: 208 70% 52%;
+    --ring: 24 94% 50%; /* match primary orange */
     --radius: 0.5rem;
   }
 
@@ -33,7 +33,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 208 70% 52%;
+    --primary: 24 94% 50%; /* vibrant orange */
     --primary-foreground: 210 40% 98%;
     --secondary: 208 100% 94%;
     --secondary-foreground: 208 70% 52%;
@@ -45,7 +45,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217 19% 85%;
     --input: 217 19% 85%;
-    --ring: 208 70% 52%;
+    --ring: 24 94% 50%;
   }
 }
 
