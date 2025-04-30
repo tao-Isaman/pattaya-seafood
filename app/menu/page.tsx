@@ -36,18 +36,18 @@ export default function MenuPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
+    <div className="min-h-screen bg-background">
       <MenuHeader />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">เมนูอาหาร</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-4">เมนูอาหาร</h1>
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
               <Input 
                 placeholder="ค้นหาเมนูอาหาร..." 
-                className="pl-10 border-sky-200 focus:border-sky-500"
+                className="pl-10 border-secondary focus:border-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -57,39 +57,43 @@ export default function MenuPage() {
 
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-sky-500" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <span className="ml-2">กำลังโหลดข้อมูล...</span>
           </div>
         ) : (
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="mb-6 bg-sky-100 p-1">
-              <TabsTrigger value="all" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
-                ทั้งหมด
-              </TabsTrigger>
-              <TabsTrigger value="seafood" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
-                อาหารทะเล
-              </TabsTrigger>
-              <TabsTrigger value="appetizers" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
-                อาหารเรียกน้ำย่อย
-              </TabsTrigger>
-              <TabsTrigger value="soups" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
-                ต้ม/แกง
-              </TabsTrigger>
-              <TabsTrigger value="drinks" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
-                เครื่องดื่ม
-              </TabsTrigger>
-            </TabsList>
+            <div className="w-full overflow-x-auto">
+              <TabsList className="mb-6 bg-secondary p-1 min-w-max flex-nowrap">
+                <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  ทั้งหมด
+                </TabsTrigger>
+                <TabsTrigger value="seafood" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  อาหารทะเล
+                </TabsTrigger>
+                <TabsTrigger value="appetizers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  อาหารเรียกน้ำย่อย
+                </TabsTrigger>
+                <TabsTrigger value="soups" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  ต้ม/แกง
+                </TabsTrigger>
+                <TabsTrigger value="drinks" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  เครื่องดื่ม
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="all" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredItems.map((item) => (
-                  <MenuItemCard key={item.id} item={item} />
-                ))}
+              <div className="container mx-auto px-4 py-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredItems.map(item => (
+                    <MenuItemCard key={item.id} item={item} />
+                  ))}
+                </div>
               </div>
             </TabsContent>
 
             <TabsContent value="seafood" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredItems
                   .filter((item) => item.category === "seafood")
                   .map((item) => (
@@ -99,7 +103,7 @@ export default function MenuPage() {
             </TabsContent>
 
             <TabsContent value="appetizers" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredItems
                   .filter((item) => item.category === "appetizers")
                   .map((item) => (
@@ -109,7 +113,7 @@ export default function MenuPage() {
             </TabsContent>
 
             <TabsContent value="soups" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredItems
                   .filter((item) => item.category === "soups")
                   .map((item) => (
@@ -119,7 +123,7 @@ export default function MenuPage() {
             </TabsContent>
 
             <TabsContent value="drinks" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredItems
                   .filter((item) => item.category === "drinks")
                   .map((item) => (
@@ -131,7 +135,7 @@ export default function MenuPage() {
         )}
       </main>
 
-      <footer className="bg-sky-800 text-white py-8">
+      <footer className="bg-primary text-primary-foreground py-8">
         <div className="container mx-auto px-4 text-center">
           <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
         </div>
@@ -142,19 +146,19 @@ export default function MenuPage() {
 
 function MenuItemCard({ item }: { item: MenuItem }) {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden bg-card">
       <div className="h-48 relative">
         <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
       </div>
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-2">
           <div>
-            <h3 className="font-semibold text-lg">{item.name}</h3>
-            <p className="text-sm text-gray-500">{getCategoryName(item.category)}</p>
+            <h3 className="font-semibold text-lg text-foreground">{item.name}</h3>
+            <p className="text-sm text-muted-foreground">{getCategoryName(item.category)}</p>
           </div>
-          <p className="font-bold text-sky-600">{item.price} บาท</p>
+          <p className="font-bold text-primary">{item.price} บาท</p>
         </div>
-        <p className="text-sm text-gray-600 mb-4">{item.description}</p>
+        <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
         <AddToCartButton item={item} />
       </CardContent>
     </Card>
@@ -174,4 +178,13 @@ function getCategoryName(category: string): string {
     default:
       return category
   }
+}
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('th-TH', {
+    style: 'currency',
+    currency: 'THB',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount)
 }
