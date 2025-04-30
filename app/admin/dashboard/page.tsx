@@ -10,6 +10,7 @@ import { getDashboardStats, getMonthlyRevenue, getPopularItems, getRecentOrders 
 import { BarChart3, Loader2, ShoppingBag, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer"
 
 export default function AdminDashboardPage() {
   const router = useRouter()
@@ -31,6 +32,7 @@ export default function AdminDashboardPage() {
   const [recentOrders, setRecentOrders] = useState<any[]>([])
   const [popularItems, setPopularItems] = useState<any[]>([])
   const [monthlyRevenue, setMonthlyRevenue] = useState<any[]>([])
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // โหลดข้อมูลแดชบอร์ดเมื่อโหลดหน้า
   useEffect(() => {
@@ -135,13 +137,21 @@ export default function AdminDashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex">
-        <AdminSidebar />
+      <div className="min-h-screen bg-background flex">
+        {/* Mobile sidebar */}
+        <Drawer open={sidebarOpen} onOpenChange={setSidebarOpen}>
+          <DrawerContent className="fixed inset-y-0 left-0 top-0 h-full w-64 max-w-full p-0 rounded-none block lg:hidden">
+            <DrawerTitle className="sr-only">เมนูนำทาง</DrawerTitle>
+            <AdminSidebar onClose={() => setSidebarOpen(false)} />
+          </DrawerContent>
+        </Drawer>
+        {/* Desktop sidebar */}
+        <div className="hidden lg:block"><AdminSidebar /></div>
         <div className="flex-1">
-          <AdminHeader title="แดชบอร์ด" />
+          <AdminHeader title="แดชบอร์ด" onMenuClick={() => setSidebarOpen(true)} />
           <main className="p-6 flex justify-center items-center h-[calc(100vh-60px)]">
             <div className="flex flex-col items-center">
-              <Loader2 className="h-8 w-8 animate-spin text-sky-500 mb-2" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
               <p>กำลังโหลดข้อมูลแดชบอร์ด...</p>
             </div>
           </main>
@@ -151,71 +161,79 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <AdminSidebar />
+    <div className="min-h-screen bg-background flex">
+      {/* Mobile sidebar */}
+      <Drawer open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <DrawerContent className="fixed inset-y-0 left-0 top-0 h-full w-64 max-w-full p-0 rounded-none block lg:hidden">
+          <DrawerTitle className="sr-only">เมนูนำทาง</DrawerTitle>
+          <AdminSidebar onClose={() => setSidebarOpen(false)} />
+        </DrawerContent>
+      </Drawer>
+      {/* Desktop sidebar */}
+      <div className="hidden lg:block"><AdminSidebar /></div>
       <div className="flex-1">
-        <AdminHeader title="แดชบอร์ด" />
+        <AdminHeader title="แดชบอร์ด" onMenuClick={() => setSidebarOpen(true)} />
         <main className="p-6">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">แดชบอร์ด</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-4">แดชบอร์ด</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+              <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">ยอดขายวันนี้</CardTitle>
-                  <CardDescription className="text-gray-500">รายได้รวมวันนี้</CardDescription>
+                  <CardTitle className="text-lg text-foreground">ยอดขายวันนี้</CardTitle>
+                  <CardDescription className="text-muted-foreground">รายได้รวมวันนี้</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-sky-600">{formatCurrency(todaySales)} บาท</p>
+                  <p className="text-2xl font-bold text-primary">{formatCurrency(todaySales)} บาท</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+              <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">ยอดขายสัปดาห์นี้</CardTitle>
-                  <CardDescription className="text-gray-500">รายได้รวมสัปดาห์นี้</CardDescription>
+                  <CardTitle className="text-lg text-foreground">ยอดขายสัปดาห์นี้</CardTitle>
+                  <CardDescription className="text-muted-foreground">รายได้รวมสัปดาห์นี้</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-sky-600">{formatCurrency(weekSales)} บาท</p>
+                  <p className="text-2xl font-bold text-primary">{formatCurrency(weekSales)} บาท</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+              <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">ยอดขายเดือนนี้</CardTitle>
-                  <CardDescription className="text-gray-500">รายได้รวมเดือนนี้</CardDescription>
+                  <CardTitle className="text-lg text-foreground">ยอดขายเดือนนี้</CardTitle>
+                  <CardDescription className="text-muted-foreground">รายได้รวมเดือนนี้</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-sky-600">{formatCurrency(monthSales)} บาท</p>
+                  <p className="text-2xl font-bold text-primary">{formatCurrency(monthSales)} บาท</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+              <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">ยอดขายทั้งหมด</CardTitle>
-                  <CardDescription className="text-gray-500">รายได้รวมทั้งหมด</CardDescription>
+                  <CardTitle className="text-lg text-foreground">ยอดขายทั้งหมด</CardTitle>
+                  <CardDescription className="text-muted-foreground">รายได้รวมทั้งหมด</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold text-sky-600">{formatCurrency(totalSales)} บาท</p>
+                  <p className="text-2xl font-bold text-primary">{formatCurrency(totalSales)} บาท</p>
                 </CardContent>
               </Card>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">รายการสั่งซื้อล่าสุด</CardTitle>
+                <CardTitle className="text-lg text-foreground">รายการสั่งซื้อล่าสุด</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {recentOrders.map((order) => (
                     <div key={order.id} className="flex items-center justify-between border-b pb-4">
                       <div>
-                        <p className="font-medium text-gray-900">#{order.id}</p>
-                        <p className="text-sm text-gray-500">{order.date} {order.time}</p>
+                        <p className="font-medium text-foreground">#{order.id}</p>
+                        <p className="text-sm text-muted-foreground">{order.date} {order.time}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-sky-600">{formatCurrency(order.total)} บาท</p>
+                        <p className="font-medium text-primary">{formatCurrency(order.total)} บาท</p>
                         <p className={`text-sm ${getStatusColor(order.status)}`}>{getStatusText(order.status)}</p>
                       </div>
                     </div>
@@ -224,20 +242,20 @@ export default function AdminDashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+            <Card className="bg-card shadow-sm hover:shadow-md transition-shadow">
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">เมนูยอดนิยม</CardTitle>
+                <CardTitle className="text-lg text-foreground">เมนูยอดนิยม</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {popularItems.map((item) => (
                     <div key={item.id} className="flex items-center justify-between border-b pb-4">
                       <div>
-                        <p className="font-medium text-gray-900">{item.name}</p>
-                        <p className="text-sm text-gray-500">{getCategoryName(item.category)}</p>
+                        <p className="font-medium text-foreground">{item.name}</p>
+                        <p className="text-sm text-muted-foreground">{getCategoryName(item.category)}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-sky-600">{item.total_orders} ครั้ง</p>
+                        <p className="font-medium text-primary">{item.total_orders} ครั้ง</p>
                       </div>
                     </div>
                   ))}
