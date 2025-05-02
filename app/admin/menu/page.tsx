@@ -24,6 +24,30 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 
+// เพิ่มรายการหมวดหมู่ที่กำหนดไว้
+const CATEGORIES = [
+  "seafood",
+  "appetizers",
+  "soups",
+  "drinks"
+] as const
+
+// Function to translate category names
+function getCategoryName(category: string): string {
+  switch (category) {
+    case "seafood":
+      return "อาหารทะเล"
+    case "appetizers":
+      return "อาหารเรียกน้ำย่อย"
+    case "soups":
+      return "ต้ม/แกง"
+    case "drinks":
+      return "เครื่องดื่ม"
+    default:
+      return category
+  }
+}
+
 export default function AdminMenuPage() {
   const { toast } = useToast()
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
@@ -280,59 +304,44 @@ export default function AdminMenuPage() {
                         <SelectValue placeholder="เลือกหมวดหมู่" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="seafood">อาหารทะเล</SelectItem>
-                        <SelectItem value="appetizers">อาหารเรียกน้ำย่อย</SelectItem>
-                        <SelectItem value="soups">ต้ม/แกง</SelectItem>
-                        <SelectItem value="drinks">เครื่องดื่ม</SelectItem>
+                        {CATEGORIES.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {getCategoryName(category)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="image">รูปภาพ</Label>
-                    <div className="flex items-center gap-4">
-                      <div className="relative h-32 w-32">
-                        <Image
-                          src={newItem.image}
-                          alt="Preview"
-                          fill
-                          className="object-cover rounded-md"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <Input
-                          id="image"
-                          type="file"
-                          accept="image/*"
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0]
-                            if (file) {
-                              const imageUrl = await handleImageUpload(file)
-                              if (imageUrl) {
-                                setNewItem({ ...newItem, image: imageUrl })
-                              }
+                    <div className="flex items-center gap-2">
+                      <Input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const imageUrl = await handleImageUpload(file)
+                            if (imageUrl) {
+                              setNewItem({ ...newItem, image: imageUrl })
                             }
-                          }}
-                          className="hidden"
-                        />
-                        <Label
-                          htmlFor="image"
-                          className="flex items-center justify-center gap-2 cursor-pointer border rounded-md p-2 hover:bg-gray-50"
-                        >
-                          <Upload className="h-4 w-4" />
-                          อัพโหลดรูปภาพ
-                        </Label>
-                      </div>
+                          }
+                        }}
+                      />
+                      {isUploading && <Loader2 className="h-4 w-4 animate-spin" />}
                     </div>
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} disabled={isSubmitting}>
+                  <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                     ยกเลิก
                   </Button>
-                  <Button className="bg-sky-500 hover:bg-sky-600" onClick={handleAddItem} disabled={isSubmitting}>
+                  <Button onClick={handleAddItem} disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> กำลังเพิ่ม...
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        กำลังเพิ่ม...
                       </>
                     ) : (
                       "เพิ่มเมนู"
@@ -345,8 +354,7 @@ export default function AdminMenuPage() {
 
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <Loader2 className="h-8 w-8 animate-spin text-sky-500" />
-              <span className="ml-2">กำลังโหลดข้อมูล...</span>
+              <Loader2 className="h-8 w-8 animate-spin" />
             </div>
           ) : menuItems.length === 0 ? (
             <div className="text-center py-12 bg-white rounded-lg shadow">
@@ -372,42 +380,167 @@ export default function AdminMenuPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {menuItems.map((item) => (
-                <Card key={item.id} className="overflow-hidden">
-                  <div className="h-48 relative">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
-                  </div>
+                <Card key={item.id}>
                   <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="font-semibold text-lg">{item.name}</h3>
-                        <p className="text-sm text-gray-500">{getCategoryName(item.category)}</p>
-                      </div>
-                      <p className="font-bold text-sky-600">{item.price} บาท</p>
+                    <div className="relative aspect-video mb-4">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover rounded-lg"
+                      />
                     </div>
-                    <p className="text-sm text-gray-600 mb-4">{item.description}</p>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setCurrentItem(item)
-                          setIsEditDialogOpen(true)
-                        }}
-                      >
-                        <Edit className="h-4 w-4 mr-2" />
-                        แก้ไข
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          setCurrentItem(item)
-                          setIsDeleteDialogOpen(true)
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        ลบ
-                      </Button>
+                    <h3 className="text-lg font-semibold mb-2">{item.name}</h3>
+                    <p className="text-gray-600 mb-2">{getCategoryName(item.category)}</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-bold text-sky-600">
+                        {item.price.toLocaleString()} บาท
+                      </span>
+                      <div className="flex gap-2">
+                        <Dialog open={isEditDialogOpen && currentItem?.id === item.id} onOpenChange={setIsEditDialogOpen}>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setCurrentItem(item)
+                                setIsEditDialogOpen(true)
+                              }}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>แก้ไขเมนู</DialogTitle>
+                              <DialogDescription>แก้ไขรายละเอียดเมนูอาหาร</DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid gap-2">
+                                <Label htmlFor="edit-name">ชื่อเมนู</Label>
+                                <Input
+                                  id="edit-name"
+                                  value={currentItem?.name}
+                                  onChange={(e) => setCurrentItem({ ...currentItem!, name: e.target.value })}
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <Label htmlFor="edit-description">คำอธิบาย</Label>
+                                <Textarea
+                                  id="edit-description"
+                                  value={currentItem?.description}
+                                  onChange={(e) => setCurrentItem({ ...currentItem!, description: e.target.value })}
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <Label htmlFor="edit-price">ราคา</Label>
+                                <Input
+                                  id="edit-price"
+                                  type="number"
+                                  value={currentItem?.price}
+                                  onChange={(e) => setCurrentItem({ ...currentItem!, price: Number(e.target.value) })}
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <Label htmlFor="edit-category">หมวดหมู่</Label>
+                                <Select
+                                  value={currentItem?.category}
+                                  onValueChange={(value) => setCurrentItem({ ...currentItem!, category: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="เลือกหมวดหมู่" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {CATEGORIES.map((category) => (
+                                      <SelectItem key={category} value={category}>
+                                        {getCategoryName(category)}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="grid gap-2">
+                                <Label htmlFor="edit-image">รูปภาพ</Label>
+                                <div className="flex items-center gap-2">
+                                  <Input
+                                    id="edit-image"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                      const file = e.target.files?.[0]
+                                      if (file) {
+                                        const imageUrl = await handleImageUpload(file)
+                                        if (imageUrl) {
+                                          setCurrentItem({ ...currentItem!, image: imageUrl })
+                                        }
+                                      }
+                                    }}
+                                  />
+                                  {isUploading && <Loader2 className="h-4 w-4 animate-spin" />}
+                                </div>
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                                ยกเลิก
+                              </Button>
+                              <Button onClick={handleEditItem} disabled={isSubmitting}>
+                                {isSubmitting ? (
+                                  <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    กำลังแก้ไข...
+                                  </>
+                                ) : (
+                                  "บันทึกการแก้ไข"
+                                )}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+
+                        <Dialog open={isDeleteDialogOpen && currentItem?.id === item.id} onOpenChange={setIsDeleteDialogOpen}>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="text-red-500 hover:text-red-600"
+                              onClick={() => {
+                                setCurrentItem(item)
+                                setIsDeleteDialogOpen(true)
+                              }}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>ยืนยันการลบเมนู</DialogTitle>
+                              <DialogDescription>
+                                คุณแน่ใจหรือไม่ที่จะลบเมนู "{item.name}"? การกระทำนี้ไม่สามารถย้อนกลับได้
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+                                ยกเลิก
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                onClick={handleDeleteItem}
+                                disabled={isSubmitting}
+                              >
+                                {isSubmitting ? (
+                                  <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    กำลังลบ...
+                                  </>
+                                ) : (
+                                  "ลบเมนู"
+                                )}
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -418,19 +551,4 @@ export default function AdminMenuPage() {
       </div>
     </div>
   )
-}
-
-function getCategoryName(category: string): string {
-  switch (category) {
-    case "seafood":
-      return "อาหารทะเล"
-    case "appetizers":
-      return "อาหารเรียกน้ำย่อย"
-    case "soups":
-      return "ต้ม/แกง"
-    case "drinks":
-      return "เครื่องดื่ม"
-    default:
-      return category
-  }
 }

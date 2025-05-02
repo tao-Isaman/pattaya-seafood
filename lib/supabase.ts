@@ -351,3 +351,52 @@ export async function getRecentOrders(limit = 4) {
     }
   })
 }
+
+// ฟังก์ชันสำหรับดึงหมวดหมู่ทั้งหมดที่เป็นไปได้
+export async function getCategories() {
+  const { data, error } = await supabase
+    .from("menu_items")
+    .select("category")
+    .order("category")
+
+  if (error) {
+    console.error("Error fetching categories:", error)
+    return []
+  }
+
+  // Get unique categories
+  const uniqueCategories = [...new Set(data.map(item => item.category))]
+  return uniqueCategories
+}
+
+// ฟังก์ชันสำหรับเพิ่มหมวดหมู่ใหม่
+export async function addCategory(category: string) {
+  // First, check if the category already exists
+  const { data: existingCategories } = await supabase
+    .from("menu_items")
+    .select("category")
+    .eq("category", category)
+    .limit(1)
+
+  if (existingCategories && existingCategories.length > 0) {
+    return category // Category already exists
+  }
+
+  // Add a new menu item with this category to create it
+  const { error } = await supabase
+    .from("menu_items")
+    .insert([{
+      name: "Category Placeholder",
+      description: "This is a placeholder item for the category",
+      price: 0,
+      category: category,
+      image: "/placeholder.svg?height=300&width=400"
+    }])
+
+  if (error) {
+    console.error("Error adding category:", error)
+    throw error
+  }
+
+  return category
+}
