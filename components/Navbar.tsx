@@ -11,7 +11,7 @@ export default function Navbar() {
   const pathname = usePathname()
   const { cart } = useCart()
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0)
-  if (pathname === "/admin/dashboard") return null
+  if (pathname.startsWith('/admin/')) return null
 
   return (
     <header className="bg-primary text-primary-foreground shadow-md">

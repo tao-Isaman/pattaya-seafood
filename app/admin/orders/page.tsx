@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { getOrders, updateOrderStatus, type Order } from "@/lib/supabase"
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer"
 
 export default function AdminOrdersPage() {
   const { toast } = useToast()
@@ -18,6 +19,7 @@ export default function AdminOrdersPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState<number | null>(null)
   const [printOrder, setPrintOrder] = useState<Order | null>(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // โหลดข้อมูลออเดอร์เมื่อโหลดหน้า
   useEffect(() => {
@@ -133,7 +135,7 @@ export default function AdminOrdersPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex">
-        <AdminSidebar />
+  
         <div className="flex-1">
           <AdminHeader title="จัดการออเดอร์" />
           <main className="p-6 flex justify-center items-center h-[calc(100vh-60px)]">
@@ -149,10 +151,19 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <AdminSidebar />
-
+      {/* Mobile sidebar */}
+      <Drawer open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <DrawerContent className="fixed inset-y-0 left-0 top-0 h-full w-64 max-w-full p-0 rounded-none block lg:hidden">
+          <DrawerTitle className="sr-only">เมนูนำทาง</DrawerTitle>
+          <AdminSidebar onClose={() => setSidebarOpen(false)} />
+        </DrawerContent>
+      </Drawer>
+      {/* Desktop sidebar */}
+      <div className="hidden lg:block">
+        <AdminSidebar />
+      </div>
       <div className="flex-1">
-        <AdminHeader title="จัดการออเดอร์" />
+        <AdminHeader title="จัดการออเดอร์" onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="p-6">
           <div className="flex justify-between items-center mb-6">

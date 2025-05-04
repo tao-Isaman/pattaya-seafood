@@ -23,6 +23,7 @@ import { Edit, Loader2, Plus, Trash2, Upload } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer"
 
 // เพิ่มรายการหมวดหมู่ที่กำหนดไว้
 const CATEGORIES = [
@@ -58,6 +59,7 @@ export default function AdminMenuPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [newItem, setNewItem] = useState<Omit<MenuItem, "id" | "created_at">>({
     name: "",
     description: "",
@@ -249,10 +251,19 @@ export default function AdminMenuPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <AdminSidebar />
-
+      {/* Mobile sidebar */}
+      <Drawer open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <DrawerContent className="fixed inset-y-0 left-0 top-0 h-full w-64 max-w-full p-0 rounded-none block lg:hidden">
+          <DrawerTitle className="sr-only">เมนูนำทาง</DrawerTitle>
+          <AdminSidebar onClose={() => setSidebarOpen(false)} />
+        </DrawerContent>
+      </Drawer>
+      {/* Desktop sidebar */}
+      <div className="hidden lg:block">
+        <AdminSidebar />
+      </div>
       <div className="flex-1">
-        <AdminHeader title="จัดการเมนูอาหาร" />
+        <AdminHeader title="จัดการเมนูอาหาร" onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="p-6">
           <div className="flex justify-between items-center mb-6">

@@ -8,12 +8,12 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 
-export function AdminSidebar({ onClose }: { onClose?: () => void } = {}) {
+export function AdminSidebar({ onClose, className }: { onClose?: () => void; className?: string } = {}) {
   const pathname = usePathname()
   const { signOut, user } = useAuth()
 
   return (
-    <div className="border-r bg-secondary w-64 h-full">
+    <div className={cn("border-r bg-secondary w-64 h-full", className)}>
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex items-center border-b px-4 py-2">
           <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
