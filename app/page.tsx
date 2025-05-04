@@ -7,6 +7,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { getMenuItems } from "@/lib/supabase"
 import type { MenuItem } from "@/lib/supabase"
+import { SITE_NAME } from "@/config/site"
 
 export default function Home() {
   const [recommendedItems, setRecommendedItems] = useState<MenuItem[]>([])
@@ -30,7 +31,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-primary/90"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">อาหารทะเลสดใหม่ จากพัทยา</h1>
-            <p className="text-xl text-primary-foreground mb-8">สั่งอาหารทะเลสดใหม่จากร้านพัทยา Sea Food ได้ง่ายๆ เพียงไม่กี่คลิก</p>
+            <p className="text-xl text-primary-foreground mb-8">สั่งอาหารทะเลสดใหม่จากร้าน{SITE_NAME} ได้ง่ายๆ เพียงไม่กี่คลิก</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/menu">
                 <Button size="lg" className="bg-white border border-primary text-primary hover:bg-primary/10 px-8">
@@ -123,7 +124,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">พัทยา Sea Food</h3>
+              <h3 className="text-xl font-bold mb-4">{SITE_NAME}</h3>
               <p className="mb-4">ร้านอาหารทะเลสดใหม่ คุณภาพดี ราคาเป็นมิตร</p>
               <div className="flex space-x-4">
                 <a href="#" className="text-primary-foreground hover:text-primary-foreground/80">
@@ -161,7 +162,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-primary/80 mt-8 pt-8 text-center">
-            <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
+            <p>&copy; {new Date().getFullYear()} {SITE_NAME}. สงวนลิขสิทธิ์ทั้งหมด.</p>
           </div>
         </div>
       </footer>

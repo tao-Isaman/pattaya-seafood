@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ShoppingCart } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useCart } from "@/context/cart-context"
+import { SITE_NAME } from "@/config/site"
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -24,7 +25,7 @@ export default function Navbar() {
             height={40}
             className="rounded-full"
           />
-          <h1 className="text-2xl font-bold">พัทยา Sea Food</h1>
+          <h1 className="text-2xl font-bold">{SITE_NAME}</h1>
         </div>
         <nav className="hidden md:flex space-x-6">
           <Link href="/" className="hover:text-primary-foreground/80 transition">

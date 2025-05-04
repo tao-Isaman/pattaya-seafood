@@ -14,6 +14,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { MenuHeader } from "@/components/menu-header"
 import { useState } from "react"
+import { SITE_NAME } from "@/config/site"
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart()
@@ -263,7 +264,7 @@ export default function CartPage() {
 
       <footer className="bg-primary text-primary-foreground py-8 mt-auto">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
+          <p>&copy; {new Date().getFullYear()} {SITE_NAME}. สงวนลิขสิทธิ์ทั้งหมด.</p>
         </div>
       </footer>
     </div>

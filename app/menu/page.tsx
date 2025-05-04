@@ -10,6 +10,7 @@ import { AddToCartButton } from "@/components/add-to-cart-button"
 import { getMenuItems } from "@/lib/supabase"
 import { useEffect, useState } from "react"
 import { MenuItem } from "@/lib/supabase"
+import { SITE_NAME } from "@/config/site"
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
@@ -136,7 +137,7 @@ export default function MenuPage() {
 
       <footer className="bg-primary text-primary-foreground py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
+          <p>&copy; {new Date().getFullYear()} {SITE_NAME}. สงวนลิขสิทธิ์ทั้งหมด.</p>
         </div>
       </footer>
     </div>

@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useAuth } from "@/context/auth-context"
+import { SITE_NAME } from "@/config/site"
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("")
@@ -60,13 +61,13 @@ export default function AdminLoginPage() {
           <div className="flex justify-center mb-4">
             <Image
               src="/placeholder.svg?height=80&width=80"
-              alt="พัทยา Sea Food Logo"
+              alt={`${SITE_NAME} Logo`}
               width={80}
               height={80}
               className="rounded-full"
             />
           </div>
-          <CardTitle className="text-2xl font-bold">พัทยา Sea Food</CardTitle>
+          <CardTitle className="text-2xl font-bold">{SITE_NAME}</CardTitle>
           <CardDescription>เข้าสู่ระบบสำหรับร้านอาหาร</CardDescription>
         </CardHeader>
         <CardContent>

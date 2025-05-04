@@ -8,6 +8,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 import Image from "next/image"
+import { SITE_NAME } from "@/config/site"
 
 export function AdminSidebar({ onClose, className }: { onClose?: () => void; className?: string } = {}) {
   const pathname = usePathname()
@@ -25,7 +26,7 @@ export function AdminSidebar({ onClose, className }: { onClose?: () => void; cla
               height={32}
               className="rounded-full"
             />
-            <span className="text-primary">Prompt Lab POS</span>
+            <span className="text-primary">{SITE_NAME}</span>
           </Link>
         </div>
         <ScrollArea className="flex-1 py-2">

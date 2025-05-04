@@ -7,12 +7,13 @@ import { CartProvider } from "@/context/cart-context"
 import { AuthProvider } from "@/context/auth-context"
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/Navbar"
+import { SITE_NAME } from "@/config/site"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "พัทยา Sea Food - ร้านอาหารทะเลสดใหม่",
-  description: "ร้านอาหารทะเลสดใหม่ พัทยา Sea Food สั่งอาหารออนไลน์ได้ง่ายๆ",
+  title: `${SITE_NAME} - ร้านอาหารทะเลสดใหม่`,
+  description: `ร้านอาหารทะเลสดใหม่ ${SITE_NAME} สั่งอาหารออนไลน์ได้ง่ายๆ`,
   generator: 'v0.dev'
 }
 

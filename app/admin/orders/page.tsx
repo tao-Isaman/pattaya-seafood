@@ -12,6 +12,7 @@ import { getOrders, updateOrderStatus, type Order } from "@/lib/supabase"
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer"
+import { SITE_NAME } from "@/config/site"
 
 export default function AdminOrdersPage() {
   const { toast } = useToast()
@@ -457,7 +458,7 @@ function Receipt({ order }: { order: Order }) {
       <div className="flex justify-between mb-4">
         <div>
           <div className="font-bold text-lg mb-1">ร้านค้าที่ให้บริการ</div>
-          <div>พัทยา Sea Food</div>
+          <div>{SITE_NAME}</div>
           <div>โทร: 038-123-4567</div>
         </div>
         <div className="text-right">

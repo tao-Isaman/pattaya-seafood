@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useCart } from "@/context/cart-context"
+import { SITE_NAME } from "@/config/site"
 
 export function MenuHeader() {
   const { cart } = useCart()
@@ -21,7 +22,7 @@ export function MenuHeader() {
             height={40}
             className="rounded-full"
           />
-          <h1 className="text-xl font-bold">พัทยา Sea Food</h1>
+          <h1 className="text-xl font-bold">{SITE_NAME}</h1>
         </Link>
         <nav className="hidden md:flex space-x-6">
           <Link href="/" className="hover:text-primary-foreground/80 transition">
