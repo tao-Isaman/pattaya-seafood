@@ -21,47 +21,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-secondary to-background">
-      <header className="bg-primary text-primary-foreground shadow-md">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Image
-              src="/logo.jpg"
-              alt="พัทยา Sea Food Logo"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <h1 className="text-2xl font-bold">พัทยา Sea Food</h1>
-          </div>
-          <nav className="hidden md:flex space-x-6">
-            <Link href="/" className="hover:text-primary-foreground/80 transition">
-              หน้าหลัก
-            </Link>
-            <Link href="/menu" className="hover:text-primary-foreground/80 transition">
-              เมนูอาหาร
-            </Link>
-            <Link href="/cart" className="hover:text-primary-foreground/80 transition">
-              ตะกร้าสินค้า
-            </Link>
-            <Link href="/admin" className="hover:text-primary-foreground/80 transition">
-              สำหรับร้านอาหาร
-            </Link>
-          </nav>
-          <div className="flex space-x-2">
-            <Link href="/cart">
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80">
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/admin" className="hidden md:block">
-              <Button variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary/80">
-                เข้าสู่ระบบร้านอาหาร
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main>
         {/* Hero Section */}
         <section

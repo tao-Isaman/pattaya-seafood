@@ -59,7 +59,7 @@ export default function CartPage() {
       const orderData = {
         customer_name: customerInfo.name,
         customer_phone: customerInfo.phone,
-        customer_address: customerInfo.address || null,
+        customer_address: customerInfo.address || undefined,
         total: totalPrice,
         status: "รอดำเนินการ" as const,
       }
@@ -97,7 +97,6 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
-      <MenuHeader />
 
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">ตะกร้าสินค้า</h1>
