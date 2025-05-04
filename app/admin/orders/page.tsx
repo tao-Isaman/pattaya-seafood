@@ -17,6 +17,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState<number | null>(null)
+  const [printOrder, setPrintOrder] = useState<Order | null>(null)
 
   // โหลดข้อมูลออเดอร์เมื่อโหลดหน้า
   useEffect(() => {
@@ -278,6 +279,11 @@ export default function AdminOrdersPage() {
               </div>
             </TabsContent>
           </Tabs>
+
+          {/* Print Receipt Modal */}
+          {printOrder && (
+            <ReceiptModal order={printOrder} onClose={() => setPrintOrder(null)} />
+          )}
         </main>
       </div>
     </div>
@@ -295,6 +301,8 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
   const date = new Date(order.created_at)
   const formattedDate = date.toLocaleDateString("th-TH")
   const formattedTime = date.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" }) + " น."
+
+  const [showReceipt, setShowReceipt] = useState(false)
 
   return (
     <Card>
@@ -376,9 +384,16 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
               </Select>
             </div>
 
-            <Button variant="outline" className="text-sky-500 border-sky-200 hover:bg-sky-50 hover:text-sky-600">
+            <Button
+              variant="outline"
+              className="text-sky-500 border-sky-200 hover:bg-sky-50 hover:text-sky-600"
+              onClick={() => setShowReceipt(true)}
+            >
               พิมพ์ใบเสร็จ
             </Button>
+            {showReceipt && (
+              <ReceiptModal order={order} onClose={() => setShowReceipt(false)} />
+            )}
           </div>
         </div>
       </CardContent>
@@ -399,4 +414,86 @@ function getStatusBadgeColor(status: string): string {
     default:
       return "bg-sky-200 text-white"
   }
+}
+
+function ReceiptModal({ order, onClose }: { order: Order; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl relative print:w-full print:max-w-full">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 print:hidden"
+        >
+          ✕
+        </button>
+        <Receipt order={order} />
+        <div className="mt-6 flex justify-end gap-2 print:hidden">
+          <button
+            onClick={() => window.print()}
+            className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90"
+          >
+            พิมพ์ใบเสร็จ
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Receipt({ order }: { order: Order }) {
+  return (
+    <div className="text-black text-sm font-sans bg-white p-4 print:p-0">
+      <div className="flex justify-between mb-4">
+        <div>
+          <div className="font-bold text-lg mb-1">ร้านค้าที่ให้บริการ</div>
+          <div>พัทยา Sea Food</div>
+          <div>โทร: 038-123-4567</div>
+        </div>
+        <div className="text-right">
+          <div className="font-bold text-lg mb-1">รายละเอียดลูกค้าสำคัญ</div>
+          <div>{order.customer_name}</div>
+          <div>{order.customer_phone}</div>
+          {order.customer_address && <div>{order.customer_address}</div>}
+        </div>
+      </div>
+      <div className="text-center font-bold text-lg mb-2">ใบเสร็จรับเงิน (Receipt)</div>
+      <table className="w-full border-t border-b border-black mb-4">
+        <thead>
+          <tr className="border-b border-black">
+            <th className="py-2 text-left">จำนวน</th>
+            <th className="py-2 text-left">รายการสินค้า</th>
+            <th className="py-2 text-right">ราคา</th>
+          </tr>
+        </thead>
+        <tbody>
+          {order.items && order.items.map((item, idx) => (
+            <tr key={idx}>
+              <td className="py-1">{item.quantity}</td>
+              <td className="py-1">{item.name}</td>
+              <td className="py-1 text-right">{(item.price * item.quantity).toLocaleString()} บาท</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex justify-end">
+        <table>
+          <tbody>
+            <tr>
+              <td className="pr-4">ราคารวม</td>
+              <td className="text-right">{order.total.toLocaleString()} บาท</td>
+            </tr>
+            <tr>
+              <td className="pr-4">ค่าจัดส่ง</td>
+              <td className="text-right">0.00 บาท</td>
+            </tr>
+            <tr className="font-bold">
+              <td className="pr-4">รวมราคาทั้งสิ้น</td>
+              <td className="text-right">{order.total.toLocaleString()} บาท</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-6 text-center">ขอบคุณที่ใช้บริการ (Thank you)</div>
+    </div>
+  )
 }
