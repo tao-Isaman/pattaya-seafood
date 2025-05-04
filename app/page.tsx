@@ -25,7 +25,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Image
-              src="/placeholder.svg?height=40&width=40"
+              src="/logo.jpg"
               alt="พัทยา Sea Food Logo"
               width={40}
               height={40}
@@ -64,7 +64,10 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <section className="py-20 px-4 text-center bg-[url('/placeholder.svg?height=600&width=1200')] bg-cover bg-center relative">
+        <section
+          className="py-20 px-4 text-center bg-cover bg-center relative"
+          style={{ backgroundImage: "url('/banner.png')" }}
+        >
           <div className="absolute inset-0 bg-primary/90"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">อาหารทะเลสดใหม่ จากพัทยา</h1>
