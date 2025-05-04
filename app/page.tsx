@@ -59,22 +59,22 @@ export default function Home() {
               {recommendedItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-card rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+                  className="relative flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 h-96"
                 >
-                  <div className="h-48 relative">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+                  <div className="w-full h-40 relative">
+                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover rounded-t-2xl" />
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-foreground">{item.name}</h3>
-                    <p className="text-muted-foreground mb-4">{item.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-primary font-bold text-lg">{item.price} บาท</span>
-                      <Link href={`/menu/${item.id}`}>
-                        <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                          สั่งเลย
-                        </Button>
-                      </Link>
-                    </div>
+                  <div className="flex-1 p-4 flex flex-col">
+                    <h3 className="font-bold text-lg mb-1 text-foreground">{item.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-2 line-clamp-2">{item.description}</p>
+                  </div>
+                  <div className="absolute left-0 bottom-0 w-full px-4 py-3 flex justify-between items-center border-t bg-gradient-to-t from-white via-white/90 to-transparent rounded-b-2xl">
+                    <span className="text-primary font-bold text-lg">{item.price} บาท</span>
+                    <Link href={`/menu/`}>
+                      <Button size="sm" className="rounded-full px-5 py-1.5 text-sm font-semibold shadow bg-primary text-primary-foreground hover:bg-primary/90 transition">
+                        สั่งเลย
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ))}
