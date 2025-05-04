@@ -290,7 +290,9 @@ function formatCurrency(amount: number): string {
     currency: 'THB',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount)
+  })
+    .format(amount)
+    .replace('฿', '฿ ')
 }
 
 function formatDate(date: string): string {
