@@ -8,30 +8,18 @@ import Image from "next/image"
 import { MenuHeader } from "@/components/menu-header"
 import { AddToCartButton } from "@/components/add-to-cart-button"
 import { getMenuItems } from "@/lib/supabase"
-import { useEffect, useState } from "react"
 import { MenuItem } from "@/lib/supabase"
 import { SITE_NAME } from "@/config/site"
+import { Suspense } from "react"
+import { useState } from "react"
 
-export default function MenuPage() {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+export default async function MenuPage() {
+  const menuItems = await getMenuItems()
+  return <MenuPageClient menuItems={menuItems} />
+}
+
+function MenuPageClient({ menuItems }: { menuItems: MenuItem[] }) {
   const [searchQuery, setSearchQuery] = useState("")
-
-  useEffect(() => {
-    async function loadMenuItems() {
-      try {
-        const items = await getMenuItems()
-        setMenuItems(items)
-      } catch (error) {
-        console.error("Error loading menu items:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadMenuItems()
-  }, [])
-
   const filteredItems = menuItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -55,84 +43,77 @@ export default function MenuPage() {
           </div>
         </div>
 
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="ml-2">กำลังโหลดข้อมูล...</span>
+        <Tabs defaultValue="all" className="w-full">
+          <div className="w-full overflow-x-auto">
+            <TabsList className="mb-6 bg-secondary p-1 min-w-max flex-nowrap">
+              <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                ทั้งหมด
+              </TabsTrigger>
+              <TabsTrigger value="seafood" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                อาหารทะเล
+              </TabsTrigger>
+              <TabsTrigger value="appetizers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                อาหารเรียกน้ำย่อย
+              </TabsTrigger>
+              <TabsTrigger value="soups" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                ต้ม/แกง
+              </TabsTrigger>
+              <TabsTrigger value="drinks" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                เครื่องดื่ม
+              </TabsTrigger>
+            </TabsList>
           </div>
-        ) : (
-          <Tabs defaultValue="all" className="w-full">
-            <div className="w-full overflow-x-auto">
-              <TabsList className="mb-6 bg-secondary p-1 min-w-max flex-nowrap">
-                <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  ทั้งหมด
-                </TabsTrigger>
-                <TabsTrigger value="seafood" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  อาหารทะเล
-                </TabsTrigger>
-                <TabsTrigger value="appetizers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  อาหารเรียกน้ำย่อย
-                </TabsTrigger>
-                <TabsTrigger value="soups" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  ต้ม/แกง
-                </TabsTrigger>
-                <TabsTrigger value="drinks" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                  เครื่องดื่ม
-                </TabsTrigger>
-              </TabsList>
+
+          <TabsContent value="all" className="mt-0">
+            <div className="container mx-auto px-4 py-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {filteredItems.map(item => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+              </div>
             </div>
+          </TabsContent>
 
-            <TabsContent value="all" className="mt-0">
-              <div className="container mx-auto px-4 py-6">
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {filteredItems.map(item => (
-                    <MenuItemCard key={item.id} item={item} />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
+          <TabsContent value="seafood" className="mt-0">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredItems
+                .filter((item) => item.category === "seafood")
+                .map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+            </div>
+          </TabsContent>
 
-            <TabsContent value="seafood" className="mt-0">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredItems
-                  .filter((item) => item.category === "seafood")
-                  .map((item) => (
-                    <MenuItemCard key={item.id} item={item} />
-                  ))}
-              </div>
-            </TabsContent>
+          <TabsContent value="appetizers" className="mt-0">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredItems
+                .filter((item) => item.category === "appetizers")
+                .map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+            </div>
+          </TabsContent>
 
-            <TabsContent value="appetizers" className="mt-0">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredItems
-                  .filter((item) => item.category === "appetizers")
-                  .map((item) => (
-                    <MenuItemCard key={item.id} item={item} />
-                  ))}
-              </div>
-            </TabsContent>
+          <TabsContent value="soups" className="mt-0">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredItems
+                .filter((item) => item.category === "soups")
+                .map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+            </div>
+          </TabsContent>
 
-            <TabsContent value="soups" className="mt-0">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredItems
-                  .filter((item) => item.category === "soups")
-                  .map((item) => (
-                    <MenuItemCard key={item.id} item={item} />
-                  ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="drinks" className="mt-0">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredItems
-                  .filter((item) => item.category === "drinks")
-                  .map((item) => (
-                    <MenuItemCard key={item.id} item={item} />
-                  ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        )}
+          <TabsContent value="drinks" className="mt-0">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredItems
+                .filter((item) => item.category === "drinks")
+                .map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
 
       <footer className="bg-primary text-primary-foreground py-8">
@@ -148,7 +129,7 @@ function MenuItemCard({ item }: { item: MenuItem }) {
   return (
     <Card className="overflow-hidden bg-card h-full flex flex-col max-h-64 md:max-h-none">
       <div className="h-32 md:h-48 relative">
-        <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+        <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
       </div>
       <CardContent className="p-4 md:p-6 flex flex-col h-full">
         <div className="flex justify-between items-start mb-2">

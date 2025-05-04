@@ -9,16 +9,9 @@ import { getMenuItems } from "@/lib/supabase"
 import type { MenuItem } from "@/lib/supabase"
 import { SITE_NAME, SITE_SLOGAN, SITE_ADDRESS, SITE_PHONE, SITE_EMAIL, SITE_HOURS } from "@/config/site"
 
-export default function Home() {
-  const [recommendedItems, setRecommendedItems] = useState<MenuItem[]>([])
-
-  useEffect(() => {
-    async function fetchRecommended() {
-      const items = await getMenuItems()
-      setRecommendedItems(items.slice(0, 3)) // Show first 3 as recommended
-    }
-    fetchRecommended()
-  }, [])
+export default async function Home() {
+  const allItems = await getMenuItems()
+  const recommendedItems = allItems.slice(0, 3)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-secondary to-background">
@@ -62,7 +55,7 @@ export default function Home() {
                   className="relative flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 h-96"
                 >
                   <div className="w-full h-40 relative">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover rounded-t-2xl" />
+                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover rounded-t-2xl" priority sizes="(max-width: 768px) 100vw, 33vw" />
                   </div>
                   <div className="flex-1 p-4 flex flex-col">
                     <h3 className="font-bold text-lg mb-1 text-foreground">{item.name}</h3>
