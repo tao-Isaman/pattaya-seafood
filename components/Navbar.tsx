@@ -5,9 +5,12 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ShoppingCart } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { useCart } from "@/context/cart-context"
 
 export default function Navbar() {
   const pathname = usePathname()
+  const { cart } = useCart()
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   if (pathname === "/admin/dashboard") return null
 
   return (
@@ -38,9 +41,14 @@ export default function Navbar() {
           </Link>
         </nav>
         <div className="flex space-x-2">
-          <Link href="/cart">
+          <Link href="/cart" className="relative">
             <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80">
               <ShoppingCart className="h-5 w-5" />
+              {totalCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[20px] h-[20px] flex items-center justify-center border-2 border-white">
+                  {totalCount}
+                </span>
+              )}
             </Button>
           </Link>
           <Link href="/admin" className="hidden md:block">
