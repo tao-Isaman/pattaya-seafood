@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { getMenuItems } from "@/lib/supabase"
 import type { MenuItem } from "@/lib/supabase"
-import { SITE_NAME } from "@/config/site"
+import { SITE_NAME, SITE_SLOGAN, SITE_ADDRESS, SITE_PHONE, SITE_EMAIL, SITE_HOURS } from "@/config/site"
 
 export default function Home() {
   const [recommendedItems, setRecommendedItems] = useState<MenuItem[]>([])
@@ -30,7 +30,7 @@ export default function Home() {
         >
           <div className="absolute inset-0 bg-primary/90"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">อาหารทะเลสดใหม่ จากพัทยา</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">{SITE_SLOGAN}</h1>
             <p className="text-xl text-primary-foreground mb-8">สั่งอาหารทะเลสดใหม่จากร้าน{SITE_NAME} ได้ง่ายๆ เพียงไม่กี่คลิก</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/menu">
@@ -151,14 +151,15 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4">ติดต่อเรา</h3>
-              <p className="mb-2">123 ถนนพัทยา, ชลบุรี 20150</p>
-              <p className="mb-2">โทร: 038-123-4567</p>
-              <p className="mb-2">อีเมล: info@pattayaseafood.com</p>
+              <p className="mb-2">{SITE_ADDRESS}</p>
+              <p className="mb-2">โทร: {SITE_PHONE}</p>
+              <p className="mb-2">อีเมล: {SITE_EMAIL}</p>
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4">เวลาทำการ</h3>
-              <p className="mb-2">จันทร์ - ศุกร์: 10:00 - 22:00</p>
-              <p className="mb-2">เสาร์ - อาทิตย์: 10:00 - 23:00</p>
+              {SITE_HOURS.map((line, idx) => (
+                <p className="mb-2" key={idx}>{line}</p>
+              ))}
             </div>
           </div>
           <div className="border-t border-primary/80 mt-8 pt-8 text-center">
