@@ -1,9 +1,24 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Utensils, ShoppingCart, ChefHat } from "lucide-react"
 import Image from "next/image"
+import { useEffect, useState } from "react"
+import { getMenuItems } from "@/lib/supabase"
+import type { MenuItem } from "@/lib/supabase"
 
 export default function Home() {
+  const [recommendedItems, setRecommendedItems] = useState<MenuItem[]>([])
+
+  useEffect(() => {
+    async function fetchRecommended() {
+      const items = await getMenuItems()
+      setRecommendedItems(items.slice(0, 3)) // Show first 3 as recommended
+    }
+    fetchRecommended()
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-secondary to-background">
       <header className="bg-primary text-primary-foreground shadow-md">
@@ -78,7 +93,7 @@ export default function Home() {
           <div className="container mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12 text-foreground">เมนูแนะนำ</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredItems.map((item) => (
+              {recommendedItems.map((item) => (
                 <div
                   key={item.id}
                   className="bg-card rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
@@ -191,27 +206,3 @@ export default function Home() {
     </div>
   )
 }
-
-const featuredItems = [
-  {
-    id: 1,
-    name: "กุ้งเผา",
-    description: "กุ้งเผาสดใหม่ เนื้อแน่น หวานกรอบ",
-    price: 350,
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: 2,
-    name: "ปลากะพงนึ่งมะนาว",
-    description: "ปลากะพงนึ่งมะนาว รสชาติเปรี้ยวหวาน",
-    price: 450,
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: 3,
-    name: "หอยแมลงภู่อบ",
-    description: "หอยแมลงภู่อบสมุนไพร หอมกลิ่นเครื่องเทศ",
-    price: 220,
-    image: "/placeholder.svg?height=300&width=400",
-  },
-]
