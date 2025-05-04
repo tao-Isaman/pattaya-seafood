@@ -270,7 +270,7 @@ export default function AdminMenuPage() {
             <h1 className="text-2xl font-bold">รายการเมนูอาหาร</h1>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-sky-500 hover:bg-sky-600">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   <Plus className="mr-2 h-4 w-4" /> เพิ่มเมนูใหม่
                 </Button>
               </DialogTrigger>
@@ -369,7 +369,7 @@ export default function AdminMenuPage() {
             </div>
           ) : menuItems.length === 0 ? (
             <div className="text-center py-12 bg-white rounded-lg shadow">
-              <div className="text-sky-500 mb-4">
+              <div className="text-primary mb-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-16 w-16 mx-auto"
@@ -404,7 +404,7 @@ export default function AdminMenuPage() {
                     <h3 className="text-lg font-semibold mb-2">{item.name}</h3>
                     <p className="text-gray-600 mb-2">{getCategoryName(item.category)}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-sky-600">
+                      <span className="text-lg font-bold text-primary">
                         {item.price.toLocaleString()} บาท
                       </span>
                       <div className="flex gap-2">

@@ -140,7 +140,7 @@ export default function AdminOrdersPage() {
           <AdminHeader title="จัดการออเดอร์" />
           <main className="p-6 flex justify-center items-center h-[calc(100vh-60px)]">
             <div className="flex flex-col items-center">
-              <Loader2 className="h-8 w-8 animate-spin text-sky-500 mb-2" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
               <p>กำลังโหลดข้อมูลออเดอร์...</p>
             </div>
           </main>
@@ -169,28 +169,28 @@ export default function AdminOrdersPage() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">รายการออเดอร์</h1>
             <div className="flex gap-2">
-              <Badge className="bg-sky-500 text-white">{pendingOrders.length} รอดำเนินการ</Badge>
-              <Badge className="bg-sky-400 text-white">{processingOrders.length} กำลังปรุง</Badge>
-              <Badge className="bg-sky-600 text-white">{completedOrders.length} เสร็จสิ้น</Badge>
-              <Badge className="bg-sky-300 text-white">{cancelledOrders.length} ยกเลิก</Badge>
+              <Badge className="bg-primary text-primary-foreground">{pendingOrders.length} รอดำเนินการ</Badge>
+              <Badge className="bg-primary/80 text-primary-foreground">{processingOrders.length} กำลังปรุง</Badge>
+              <Badge className="bg-primary/90 text-primary-foreground">{completedOrders.length} เสร็จสิ้น</Badge>
+              <Badge className="bg-primary/20 text-primary">{cancelledOrders.length} ยกเลิก</Badge>
             </div>
           </div>
 
           <Tabs defaultValue="pending">
-            <TabsList className="bg-sky-100 mb-6">
-              <TabsTrigger value="pending" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+            <TabsList className="bg-primary/10 mb-6">
+              <TabsTrigger value="pending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 รอดำเนินการ
               </TabsTrigger>
-              <TabsTrigger value="processing" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+              <TabsTrigger value="processing" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 กำลังปรุง
               </TabsTrigger>
-              <TabsTrigger value="completed" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+              <TabsTrigger value="completed" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 เสร็จสิ้น
               </TabsTrigger>
-              <TabsTrigger value="cancelled" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+              <TabsTrigger value="cancelled" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 ยกเลิก
               </TabsTrigger>
-              <TabsTrigger value="all" className="data-[state=active]:bg-sky-500 data-[state=active]:text-white">
+              <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 ทั้งหมด
               </TabsTrigger>
             </TabsList>
@@ -397,7 +397,7 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
 
             <Button
               variant="outline"
-              className="text-sky-500 border-sky-200 hover:bg-sky-50 hover:text-sky-600"
+              className="text-primary border-primary/30 hover:bg-primary/10 hover:text-primary"
               onClick={() => setShowReceipt(true)}
             >
               พิมพ์ใบเสร็จ
@@ -415,15 +415,15 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
 function getStatusBadgeColor(status: string): string {
   switch (status) {
     case "รอดำเนินการ":
-      return "bg-sky-500 text-white"
+      return "bg-primary text-primary-foreground"
     case "กำลังปรุง":
-      return "bg-sky-400 text-white"
+      return "bg-primary/80 text-primary-foreground"
     case "เสร็จสิ้น":
-      return "bg-sky-600 text-white"
+      return "bg-primary/90 text-primary-foreground"
     case "ยกเลิก":
-      return "bg-sky-300 text-white"
+      return "bg-primary/20 text-primary"
     default:
-      return "bg-sky-200 text-white"
+      return "bg-primary/10 text-primary"
   }
 }
 

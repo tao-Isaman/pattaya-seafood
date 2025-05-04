@@ -96,14 +96,14 @@ export default function CartPage() {
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-primary/5 to-white">
 
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">ตะกร้าสินค้า</h1>
 
         {cart.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-sky-500 mb-4">
+            <div className="text-primary mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-16 w-16 mx-auto"
@@ -122,7 +122,7 @@ export default function CartPage() {
             <h2 className="text-xl font-semibold mb-2">ตะกร้าของคุณว่างเปล่า</h2>
             <p className="text-gray-600 mb-6">เลือกเมนูอาหารที่คุณชื่นชอบและเพิ่มลงในตะกร้า</p>
             <Link href="/menu">
-              <Button className="bg-sky-500 hover:bg-sky-600">ดูเมนูอาหาร</Button>
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">ดูเมนูอาหาร</Button>
             </Link>
           </div>
         ) : (
@@ -195,7 +195,7 @@ export default function CartPage() {
                     <Separator />
                     <div className="flex justify-between text-lg font-semibold">
                       <span>ยอดรวมทั้งสิ้น</span>
-                      <span className="text-sky-600">{totalPrice} บาท</span>
+                      <span className="text-primary">{totalPrice} บาท</span>
                     </div>
                   </div>
 
@@ -242,7 +242,7 @@ export default function CartPage() {
                   </div>
 
                   <Button
-                    className="w-full bg-sky-500 hover:bg-sky-600"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                     onClick={handleSubmitOrder}
                     disabled={isSubmitting || !customerInfo.name || !customerInfo.phone || cart.length === 0}
                   >
@@ -261,7 +261,7 @@ export default function CartPage() {
         )}
       </main>
 
-      <footer className="bg-sky-800 text-white py-8 mt-auto">
+      <footer className="bg-primary text-primary-foreground py-8 mt-auto">
         <div className="container mx-auto px-4 text-center">
           <p>&copy; {new Date().getFullYear()} พัทยา Sea Food. สงวนลิขสิทธิ์ทั้งหมด.</p>
         </div>
