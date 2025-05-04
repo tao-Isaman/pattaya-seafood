@@ -157,10 +157,10 @@ export default function AdminOrdersPage() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">รายการออเดอร์</h1>
             <div className="flex gap-2">
-              <Badge className="bg-yellow-500">{pendingOrders.length} รอดำเนินการ</Badge>
-              <Badge className="bg-blue-500">{processingOrders.length} กำลังปรุง</Badge>
-              <Badge className="bg-green-500">{completedOrders.length} เสร็จสิ้น</Badge>
-              <Badge className="bg-red-500">{cancelledOrders.length} ยกเลิก</Badge>
+              <Badge className="bg-sky-500 text-white">{pendingOrders.length} รอดำเนินการ</Badge>
+              <Badge className="bg-sky-400 text-white">{processingOrders.length} กำลังปรุง</Badge>
+              <Badge className="bg-sky-600 text-white">{completedOrders.length} เสร็จสิ้น</Badge>
+              <Badge className="bg-sky-300 text-white">{cancelledOrders.length} ยกเลิก</Badge>
             </div>
           </div>
 
@@ -389,14 +389,14 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
 function getStatusBadgeColor(status: string): string {
   switch (status) {
     case "รอดำเนินการ":
-      return "bg-yellow-500"
+      return "bg-sky-500 text-white"
     case "กำลังปรุง":
-      return "bg-blue-500"
+      return "bg-sky-400 text-white"
     case "เสร็จสิ้น":
-      return "bg-green-500"
+      return "bg-sky-600 text-white"
     case "ยกเลิก":
-      return "bg-red-500"
+      return "bg-sky-300 text-white"
     default:
-      return "bg-gray-500"
+      return "bg-sky-200 text-white"
   }
 }

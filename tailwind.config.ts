@@ -65,6 +65,10 @@ const config = {
           800: "#075985",
           900: "#0c4a6e",
         },
+        footer: {
+          DEFAULT: "#0077A3",
+          foreground: "#ffffff",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

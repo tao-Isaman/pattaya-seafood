@@ -272,15 +272,15 @@ export default function AdminDashboardPage() {
 function getStatusColor(status: string) {
   switch (status) {
     case "รอดำเนินการ":
-      return "text-yellow-500"
+      return "text-sky-500"
     case "กำลังปรุง":
-      return "text-blue-500"
+      return "text-sky-400"
     case "เสร็จสิ้น":
-      return "text-green-500"
+      return "text-sky-600"
     case "ยกเลิก":
-      return "text-red-500"
+      return "text-sky-300"
     default:
-      return "text-gray-500"
+      return "text-sky-200"
   }
 }
 
