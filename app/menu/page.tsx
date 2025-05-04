@@ -145,11 +145,11 @@ export default function MenuPage() {
 
 function MenuItemCard({ item }: { item: MenuItem }) {
   return (
-    <Card className="overflow-hidden bg-card h-full flex flex-col">
-      <div className="h-48 relative">
+    <Card className="overflow-hidden bg-card h-full flex flex-col max-h-64 md:max-h-none">
+      <div className="h-32 md:h-48 relative">
         <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
       </div>
-      <CardContent className="p-6 flex flex-col h-full">
+      <CardContent className="p-4 md:p-6 flex flex-col h-full">
         <div className="flex justify-between items-start mb-2">
           <div>
             <h3 className="font-semibold text-lg text-foreground">{item.name}</h3>
@@ -157,7 +157,7 @@ function MenuItemCard({ item }: { item: MenuItem }) {
           </div>
           <p className="font-bold text-primary">{item.price} บาท</p>
         </div>
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-5">{item.description}</p>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 md:line-clamp-5">{item.description}</p>
         <div className="mt-auto">
           <AddToCartButton item={item} />
         </div>
