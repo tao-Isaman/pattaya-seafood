@@ -244,7 +244,7 @@ export default function CartPage() {
                   <Button
                     className="w-full bg-sky-500 hover:bg-sky-600"
                     onClick={handleSubmitOrder}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !customerInfo.name || !customerInfo.phone || cart.length === 0}
                   >
                     {isSubmitting ? (
                       <>
