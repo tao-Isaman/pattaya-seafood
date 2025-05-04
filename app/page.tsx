@@ -25,7 +25,7 @@ export default function Home() {
         {/* Hero Section */}
         <section
           className="py-20 px-4 text-center bg-cover bg-center relative"
-          style={{ backgroundImage: "url('/banner.png')" }}
+          style={{ backgroundImage: "url('/banner-new.png')" }}
         >
           <div className="absolute inset-0 bg-primary/90"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
@@ -33,7 +33,7 @@ export default function Home() {
             <p className="text-xl text-primary-foreground mb-8">สั่งอาหารทะเลสดใหม่จากร้านพัทยา Sea Food ได้ง่ายๆ เพียงไม่กี่คลิก</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/menu">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                <Button size="lg" className="bg-white border border-primary text-primary hover:bg-primary/10 px-8">
                   <Utensils className="mr-2 h-5 w-5" /> ดูเมนูอาหาร
                 </Button>
               </Link>

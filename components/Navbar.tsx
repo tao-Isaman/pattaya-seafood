@@ -18,8 +18,8 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Image
-            src="/logo.jpg"
-            alt="พัทยา Sea Food Logo"
+            src="/new-logo.png"
+            alt="Prompt Lab POS Logo"
             width={40}
             height={40}
             className="rounded-full"

@@ -7,6 +7,7 @@ import { ChefHat, Home, LogOut, Menu, Package, ShoppingCart } from "lucide-react
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
+import Image from "next/image"
 
 export function AdminSidebar({ onClose, className }: { onClose?: () => void; className?: string } = {}) {
   const pathname = usePathname()
@@ -17,8 +18,14 @@ export function AdminSidebar({ onClose, className }: { onClose?: () => void; cla
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex items-center border-b px-4 py-2">
           <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
-            <ChefHat className="h-6 w-6 text-primary" />
-            <span className="text-primary">พัทยา Sea Food</span>
+            <Image
+              src="/new-logo.png"
+              alt="Prompt Lab POS Logo"
+              width={32}
+              height={32}
+              className="rounded-full"
+            />
+            <span className="text-primary">Prompt Lab POS</span>
           </Link>
         </div>
         <ScrollArea className="flex-1 py-2">
