@@ -12,8 +12,70 @@ import { createOrder } from "@/lib/supabase"
 import { Loader2, Minus, Plus, Trash2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { MenuHeader } from "@/components/menu-header"
 import { useState } from "react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+// List of villa names
+const VILLA_NAMES = [
+  "จอมเทียน 19",
+  "จอมเทียน 17",
+  "เดาน่าจอมเทียน",
+  "13144",
+  "131181",
+  "Nina. pool",
+  "หน้าร้าน (4 times in วสันต์1)",
+  "Magic Time's",
+  "Aqua Rich",
+  "แก็กม่าย",
+  "LAVA (ราวา)",
+  "Mavia Fun (มาเวีย)",
+  "อู๊ค่า",
+  "ขอนหมอ",
+  "ซีสัน",
+  "ตำหนัก",
+  "ชั้นโล",
+  "มุมไอน์",
+  "B17",
+  "Moon light (มูนไลน์)",
+  "Star light (สตาไลน์)",
+  "นานา",
+  "Mina",
+  "83/87",
+  "\"Je T\"\"aime  (เชอเตม)\"",
+  "The Time's",
+  "Butter",
+  "Terra House",
+  "Sky",
+  "Signatures",
+  "P&P 83/93",
+  "P&P 83/92",
+  "Nifta",
+  "Sonava (โซนาว่า)",
+  "อิตเด็ด",
+  "Ashy",
+  "เดสทีนี",
+  "เทคดี้",
+  "เดอะ นันทรีวิ",
+  "ยูโทเปีย",
+  "เพล ซี",
+  "เบีย ทีส",
+  "I love you (ไอ เลิฟ ยู)",
+  "ซีซาร์",
+  "ซิส พัทยา",
+  "โพธิรมณ",
+  "วิลล่า เดอ บุน",
+  "blossom",
+  "Chloe house",
+  "41",
+  "Snap stay",
+  "Smok. stay",
+  "บ้านใหญ่สุด",
+  "charlotte house",
+  "Hormone",
+  "star. say",
+  "Luca",
+  "RetryPP"
+]
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart()
@@ -22,6 +84,7 @@ export default function CartPage() {
     name: "",
     phone: "",
     address: "",
+    villaName: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -33,11 +96,18 @@ export default function CartPage() {
     }))
   }
 
+  const handleVillaChange = (value: string) => {
+    setCustomerInfo((prev) => ({
+      ...prev,
+      villaName: value,
+    }))
+  }
+
   const handleSubmitOrder = async () => {
-    if (!customerInfo.name || !customerInfo.phone) {
+    if (!customerInfo.name || !customerInfo.phone || !customerInfo.villaName) {
       toast({
         title: "กรุณากรอกข้อมูล",
-        description: "กรุณากรอกชื่อและเบอร์โทรศัพท์",
+        description: "กรุณากรอกชื่อ, เบอร์โทรศัพท์ และเลือกชื่อบ้าน",
         variant: "destructive",
       })
       return
@@ -60,6 +130,7 @@ export default function CartPage() {
         customer_name: customerInfo.name,
         customer_phone: customerInfo.phone,
         customer_address: customerInfo.address || undefined,
+        villa_name: customerInfo.villaName,
         total: totalPrice,
         status: "รอดำเนินการ" as const,
       }
@@ -227,6 +298,26 @@ export default function CartPage() {
                         />
                       </div>
                       <div>
+                        <label htmlFor="villaName" className="block text-sm font-medium text-gray-700 mb-1">
+                          ชื่อวิลล่า *
+                        </label>
+                        <Select
+                          value={customerInfo.villaName}
+                          onValueChange={handleVillaChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="เลือกชื่อวิลล่า" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[300px]">
+                            {VILLA_NAMES.map((villa) => (
+                              <SelectItem key={villa} value={villa}>
+                                {villa}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
                         <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
                           ที่อยู่ (ถ้ามี)
                         </label>
@@ -244,7 +335,7 @@ export default function CartPage() {
                   <Button
                     className="w-full bg-sky-500 hover:bg-sky-600"
                     onClick={handleSubmitOrder}
-                    disabled={isSubmitting || !customerInfo.name || !customerInfo.phone || cart.length === 0}
+                    disabled={isSubmitting || !customerInfo.name || !customerInfo.phone || !customerInfo.villaName || cart.length === 0}
                   >
                     {isSubmitting ? (
                       <>
