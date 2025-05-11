@@ -328,6 +328,11 @@ function OrderCard({ order, onStatusChange, isUpdating }: OrderCardProps) {
               <p>
                 <span className="font-medium">เบอร์โทร:</span> {order.customer_phone}
               </p>
+              {order.villa_name && (
+                <p>
+                  <span className="font-medium">ชื่อบ้าน/วิลล่า:</span> {order.villa_name}
+                </p>
+              )}
               {order.customer_address && (
                 <p>
                   <span className="font-medium">ที่อยู่:</span> {order.customer_address}
@@ -453,6 +458,7 @@ function Receipt({ order }: { order: Order }) {
           <div className="font-bold text-lg mb-1">รายละเอียดลูกค้าสำคัญ</div>
           <div>{order.customer_name}</div>
           <div>{order.customer_phone}</div>
+          {order.villa_name && <div>{order.villa_name}</div>}
           {order.customer_address && <div>{order.customer_address}</div>}
         </div>
       </div>

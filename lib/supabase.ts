@@ -32,6 +32,7 @@ export type Order = {
   customer_name: string
   customer_phone: string
   customer_address?: string
+  villa_name?: string
   total: number
   status: "รอดำเนินการ" | "กำลังปรุง" | "เสร็จสิ้น" | "ยกเลิก"
   created_at: string
